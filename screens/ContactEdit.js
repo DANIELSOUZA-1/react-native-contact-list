@@ -1,5 +1,5 @@
 import {StatusBar} from "expo-status-bar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {Alert, Pressable, Text, TextInput, View} from "react-native";
 import {NativeWindStyleSheet} from "nativewind";
 import {TouchableOpacity} from "react-native";
@@ -7,24 +7,31 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import { Button } from "react-native";
 
-export default function ContactEditScreen({navigation}) {
-  contact = {
+export default function ContactEditScreen({route, navigation}) {
+  let contact = {
     name: '',
     email: '',
     phoneNumber: '',
   }
 
-  paramExists = navigation.getState().routes.find(obj => obj.name == "ContactsEdit").params ? true : false
-  console.log(paramExists)
+  const [ contacts, setContacts ] = useState([])
 
-  if (paramExists) {
-    contact = navigation.getState().routes.find(obj => obj.name == "ContactsEdit").params.contact
+  useEffect(() => {
+    if (route.params) {
+      const { contacts } = route.params
+      console.log(route.params)
+      setContacts(contacts)
+    }
+  })
+
+
+  if (route.params) {
+    contact = route.params.contact
   }
 
   function onChangeValueText(inputForm, value) {
     contact[inputForm] = value
   }
-
 
   return (
     <View className="flex-1 bg-slate-800 ">
@@ -55,7 +62,9 @@ export default function ContactEditScreen({navigation}) {
           <Text className="mb-0.5 text-slate-600 font-bold ">Telefone</Text>
           <TextInput defaultValue={contact.phoneNumber} onChangeText={text => {onChangeValueText("phoneNumber", text)}} className="mb-4 w-full border border-slate-400 p-2 rounded-md" placeholder="Digite seu telefone..."></TextInput>
         </View>
-        <Pressable className="mt-4 bg-slate-800 px-4 py-3 w-full rounded-full" onPress={() => navigation.navigate('Contacts', { contact })}>
+        <Pressable className="mt-4 bg-slate-800 px-4 py-3 w-full rounded-full" onPress={() => {
+            navigation.navigate('Contacts', {contact} )
+          }}>
 
           <Text className="text-white font-semibold text-xl mx-auto">Salvar</Text>
         </Pressable>
