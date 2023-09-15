@@ -4,24 +4,31 @@ import { NativeWindStyleSheet } from "nativewind";
 import { TouchableOpacity } from "react-native";
 import {  } from "react-native-web";
 import { useIsFocused } from '@react-navigation/native';
+import axios from "axios";
 
 export default function ContactListScreen({route, navigation}) {
   
   const [contacts, setContacts] = useState([])
-  let load = true;
+
+  const isFocused = useIsFocused();
+
   useEffect( () => {
-    
-
-    if(route.params) {
-      let {contact} = route.params
-      contacts.push(contact)
-      console.log(contacts)
+    if(isFocused){ 
+      consultarDados();
     }
-    setContacts(contacts)
-  })
+  }, [isFocused])
   
-
-
+  function consultarDados() {
+    axios.get('http://localhost:3000/contatos')
+      .then(response => {
+        setContacts(response.data)
+        //console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+  
 
   
   return (
@@ -41,7 +48,7 @@ export default function ContactListScreen({route, navigation}) {
       
       {contacts.map((contact, index) => {
         return (
-          <TouchableOpacity key={index} onPress={() => navigation.navigate("ContactsEdit", { contacts })} >
+          <TouchableOpacity key={index} onPress={() => navigation.navigate("ContactsEdit", { contact })} >
             <View className="flex flex-row items-center mt-2 bg-white p-2 rounded-md space-x-3.5">
               <View className="bg-slate-900 border-2 border-slate-400 w-16 h-16 rounded-full"></View>
               <View>

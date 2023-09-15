@@ -6,6 +6,7 @@ import {TouchableOpacity} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import { Button } from "react-native";
+import axios from "axios";
 
 export default function ContactEditScreen({route, navigation}) {
   let contact = {
@@ -13,17 +14,6 @@ export default function ContactEditScreen({route, navigation}) {
     email: '',
     phoneNumber: '',
   }
-
-  const [ contacts, setContacts ] = useState([])
-
-  useEffect(() => {
-    if (route.params) {
-      const { contacts } = route.params
-      console.log(route.params)
-      setContacts(contacts)
-    }
-  })
-
 
   if (route.params) {
     contact = route.params.contact
@@ -63,9 +53,13 @@ export default function ContactEditScreen({route, navigation}) {
           <TextInput defaultValue={contact.phoneNumber} onChangeText={text => {onChangeValueText("phoneNumber", text)}} className="mb-4 w-full border border-slate-400 p-2 rounded-md" placeholder="Digite seu telefone..."></TextInput>
         </View>
         <Pressable className="mt-4 bg-slate-800 px-4 py-3 w-full rounded-full" onPress={() => {
-            navigation.navigate('Contacts', {contact} )
+            axios.post('http://localhost:3000/contatos',
+              contact
+            ).then(response => {
+              console.log(response)
+              navigation.navigate('Contacts', {contact} )
+            }).catch(error => { console.log(error) })
           }}>
-
           <Text className="text-white font-semibold text-xl mx-auto">Salvar</Text>
         </Pressable>
       </View>
