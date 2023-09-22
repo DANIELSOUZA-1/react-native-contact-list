@@ -16,6 +16,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUpScreen from "./screens/SignUp";
 import ContactListScreen from "./screens/ContactList";
 import ContactEditScreen from "./screens/ContactEdit";
+import FlashMessage from "react-native-flash-message";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="Contacts" component={ ContactListScreen } />
         <Stack.Screen options={{ headerShown: false }} name="ContactsEdit" component={ ContactEditScreen } />
       </Stack.Navigator>
+      <FlashMessage position="top" />
     </NavigationContainer>
   );
 }

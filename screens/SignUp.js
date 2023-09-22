@@ -3,8 +3,11 @@ import React from 'react';
 import { Alert, Pressable, Text, TextInput, View } from 'react-native';
 import { NativeWindStyleSheet } from "nativewind";
 import axios from 'axios';
+import { hideMessage, showMessage } from 'react-native-flash-message';
 
 export default function SignUpScreen({ navigation }) {
+
+  var success = false
 
   let user = {
     name: '',
@@ -26,6 +29,16 @@ export default function SignUpScreen({ navigation }) {
     user[inputForm] = value
   }
 
+  function successMessage() {
+    showMessage({
+      message: "Cadastro Realizado",
+      type: "success",
+    });
+  }
+
+  
+
+  
   return (
     <View className="flex-1 bg-slate-800">
       <View className="px-8 py-24">
@@ -52,11 +65,14 @@ export default function SignUpScreen({ navigation }) {
         </View>
         <Pressable className="mt-4 bg-slate-800 px-4 py-3 w-full rounded-full" onPress={() => {
           signUp(user)
+          successMessage()
           navigation.navigate('Login')
+
         }}>
           <Text className="text-white font-semibold text-xl mx-auto">Salvar</Text>
         </Pressable>
 
+        
       </View>
     </View>
   );

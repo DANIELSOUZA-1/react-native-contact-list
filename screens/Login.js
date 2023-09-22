@@ -6,6 +6,7 @@ import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import axios from 'axios';
+import { showMessage } from 'react-native-flash-message';
 
 export default function LoginScreen({ navigation }) {
   let user = {
@@ -15,10 +16,14 @@ export default function LoginScreen({ navigation }) {
 
   async function login(user) {
     await axios.get(`http://localhost:3000/users?email=${user.email}&password=${user.password}`).then(response => {
-      debugger
       let user = response.data[0]
       if (user) {
+        showMessage({
+          message: "Logado",
+          type: "info",
+        });
         navigation.navigate('Contacts')
+
         return user
       }
     }).catch(error => console.log(error))
@@ -50,6 +55,7 @@ export default function LoginScreen({ navigation }) {
         <TouchableOpacity className="mt-4 px-4 py-1 w-full rounded-full" onPress={() => navigation.navigate('SignUp')}>
           <Text className="text-slate-800 font-semibold text-xl mx-auto">Cadastrar</Text>
         </TouchableOpacity>
+      
       </View>
     </View>
   );
