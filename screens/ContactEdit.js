@@ -27,7 +27,7 @@ export default function ContactEditScreen({route, navigation}) {
     <View className="flex-1 bg-slate-800 ">
       <View className="px-6 py-16">
         <View className="flex flex-row items-center justify-between mb-10">
-          <Text className=" text-white w-52 text-2xl font-semibold">
+          <Text className="text-white w-52 text-2xl font-semibold">
             Edição de Contato <Text className="text-slate-400">{ contact.name }</Text>
           </Text>
           <TouchableOpacity
