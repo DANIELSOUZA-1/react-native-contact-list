@@ -8,6 +8,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
 import { showMessage } from "react-native-flash-message";
 
+
+
+
 export default function ContactEditScreen({ route, navigation }) {
   var contact = {
     name: '',
@@ -16,6 +19,9 @@ export default function ContactEditScreen({ route, navigation }) {
   }
 
   var changeContact = false
+
+  
+
 
   if (route.params) {
     contact = route.params.contact
@@ -53,19 +59,19 @@ export default function ContactEditScreen({ route, navigation }) {
   }
 
   function deleteContact() {
-      axios.delete(`http://localhost:3000/contatos/${contact.id}`,
-        contact
-      ).then(response => {
-        console.log(response)
-        showMessage({
-          message: "Contato Excluido",
-          type: "danger",
-        });
-        navigation.navigate('Contacts', { contact })
-      }).catch(error => { console.log(error) })
+    axios.delete(`http://localhost:3000/contatos/${contact.id}`,
+      contact
+    ).then(response => {
+      console.log(response)
+      showMessage({
+        message: "Contato Excluido",
+        type: "danger",
+      });
+      navigation.navigate('Contacts', { contact })
+    }).catch(error => { console.log(error) })
 
   }
-  
+
 
   function onChangeValueText(inputForm, value) {
     contact[inputForm] = value
@@ -108,7 +114,7 @@ export default function ContactEditScreen({ route, navigation }) {
           <Text className="text-red-700 font-semibold text-xl mx-auto">Deletar</Text>
         </Pressable>
       </View>
-        
+
 
     </View>
   );

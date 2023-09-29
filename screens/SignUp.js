@@ -5,6 +5,11 @@ import { NativeWindStyleSheet } from "nativewind";
 import axios from 'axios';
 import { hideMessage, showMessage } from 'react-native-flash-message';
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 export default function SignUpScreen({ navigation }) {
 
   var success = false
@@ -15,6 +20,43 @@ export default function SignUpScreen({ navigation }) {
     email: '',
     password: ''
   }
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyD4z9evoXL37mLO-QIiFUIrT6miELZRjb0",
+    authDomain: "aula-app-bfebd.firebaseapp.com",
+    projectId: "aula-app-bfebd",
+    storageBucket: "aula-app-bfebd.appspot.com",
+    messagingSenderId: "1038660596676",
+    appId: "1:1038660596676:web:f27a2e1386ed9fd27bea91",
+    measurementId: "G-DR9947NGM1"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app)
+
+  function signUpFirebase(email, password) {
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        successMessage()
+        navigation.navigate('Login')
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  }
+
 
   function signUp(user) {
     axios.post(`http://localhost:3000/users`, user).then(() => {
@@ -36,9 +78,9 @@ export default function SignUpScreen({ navigation }) {
     });
   }
 
-  
 
-  
+
+
   return (
     <View className="flex-1 bg-slate-800">
       <View className="px-8 py-24">
@@ -64,15 +106,12 @@ export default function SignUpScreen({ navigation }) {
           <TextInput defaultValue={user.password} onChangeText={inputValue => { onChangeValueText("password", inputValue) }} secureTextEntry={true} className="mb-4 w-full border border-slate-400 p-2 rounded-md" placeholder="Digite sua senha..."></TextInput>
         </View>
         <Pressable className="mt-4 bg-slate-800 px-4 py-3 w-full rounded-full" onPress={() => {
-          signUp(user)
-          successMessage()
-          navigation.navigate('Login')
-
+          signUpFirebase(user.email, user.password)
         }}>
           <Text className="text-white font-semibold text-xl mx-auto">Salvar</Text>
         </Pressable>
 
-        
+
       </View>
     </View>
   );
