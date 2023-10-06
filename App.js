@@ -17,6 +17,7 @@ import SignUpScreen from "./screens/SignUp";
 import ContactListScreen from "./screens/ContactList";
 import ContactEditScreen from "./screens/ContactEdit";
 import FlashMessage from "react-native-flash-message";
+import StorageScreen from "./screens/StorageScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="SignUp" component={ SignUpScreen } />
         <Stack.Screen options={{ headerShown: false }} name="Contacts" component={ ContactListScreen } />
         <Stack.Screen options={{ headerShown: false }} name="ContactsEdit" component={ ContactEditScreen } />
+        <Stack.Screen options={{ headerShown: false }} name="StorageScreen" component={ StorageScreen } />
       </Stack.Navigator>
       <FlashMessage position="top" />
     </NavigationContainer>

@@ -144,6 +144,9 @@ export default function LoginScreen({ navigation }) {
         <TouchableOpacity className="mt-4 px-4 py-1 w-full rounded-full" onPress={() => navigation.navigate('SignUp')}>
           <Text className="text-slate-800 font-semibold text-xl mx-auto">Cadastrar</Text>
         </TouchableOpacity>
+        <TouchableOpacity className="mt-4 px-4 py-1 w-full rounded-full" onPress={() => navigation.navigate('StorageScreen')}>
+          <Text className="text-slate-800 font-semibold text-xl mx-auto">Firebase</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
